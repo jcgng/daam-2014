@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pt.iscte.meti.healthmonitor"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="false"
+        android:debuggable="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="pt.iscte.meti.healthmonitor.SplashscreenActivity"
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="pt.iscte.meti.healthmonitor.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="pt.iscte.meti.healthmonitor.MainActivity"
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="pt.iscte.meti.healthmonitor.PatientActivity"
+            android:label="@string/title_activity_patient"
+            android:parentActivityName="pt.iscte.meti.healthmonitor.MainActivity" 
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pt.iscte.meti.healthmonitor.MainActivity" />
+        </activity>
+        <activity
+            android:name="pt.iscte.meti.healthmonitor.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="pt.iscte.meti.healthmonitor.MainActivity" 
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pt.iscte.meti.healthmonitor.MainActivity" />
+        </activity>
+        <activity
+            android:name="pt.iscte.meti.healthmonitor.MonitorActivity"
+            android:label="@string/title_activity_monitor"
+            android:parentActivityName="pt.iscte.meti.healthmonitor.MainActivity" 
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pt.iscte.meti.healthmonitor.MainActivity" />
+        </activity>
+    </application>
+</manifest>

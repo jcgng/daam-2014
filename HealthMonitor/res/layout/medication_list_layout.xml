@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TableLayout
+	      android:layout_width="fill_parent"
+	      android:layout_height="fill_parent"
+	      android:stretchColumns="1">
+		  <TableRow 
+		      	android:layout_width="fill_parent"
+        		android:layout_height="fill_parent"
+        		android:layout_marginRight="5dp"
+        		android:layout_marginTop="2dp"
+        		android:layout_marginBottom="2dp"
+        		android:stretchColumns="1">
+        		
+			   <ImageView
+			         android:id="@+id/pillIcon"
+			         android:layout_width="10dp"
+			         android:layout_height="10dp"
+			         android:gravity="center"/>
+			     
+			    <TextView
+			        android:id="@+id/drug"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:textColor="@color/blue_text_color"
+			        android:gravity = "center_vertical" />
+    		</TableRow>
+ 	</TableLayout>
+	<TableLayout
+	      android:layout_width="fill_parent"
+	      android:layout_height="fill_parent"
+	      android:stretchColumns="*">
+    		<TableRow 
+		      	android:layout_width="fill_parent"
+        		android:layout_height="fill_parent"
+        		android:layout_marginRight="5dp"
+        		android:layout_marginTop="2dp"
+        		android:layout_marginBottom="2dp"
+        		android:stretchColumns="*"> 
+        		
+			    <TextView
+			        android:id="@+id/drug"
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent"
+			        android:textColor="@color/blue_text_color"
+			        android:gravity = "center_vertical" />
+			    
+			     <TextView
+			        android:id="@+id/patientDosage"
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent"
+			        android:textColor="@color/blue_text_color"
+			        android:gravity = "center_vertical" />
+			     
+			     <TextView
+			        android:id="@+id/schedule"
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent"
+			        android:textColor="@color/blue_text_color"
+			        android:gravity = "center_vertical" />
+			     
+			     <TextView
+			        android:id="@+id/route"
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent"
+			        android:textColor="@color/blue_text_color"
+			        android:gravity = "center_vertical" />
+    		</TableRow>
+	</TableLayout>
+
+</LinearLayout>

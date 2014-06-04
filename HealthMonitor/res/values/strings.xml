@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Health Monitor</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_patient">Patient</string>
+    <string name="txt_edit_search">Search patient</string>
+    <string name="title_activity_monitor">Monitor</string>
+  
+</resources>
