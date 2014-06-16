@@ -6,32 +6,30 @@
      <TableLayout
 	      android:layout_width="fill_parent"
 	      android:layout_height="fill_parent"
-	      android:stretchColumns="1">
+	      android:stretchColumns="2">
 		  <TableRow 
 		      	android:layout_width="fill_parent"
         		android:layout_height="fill_parent"
         		android:layout_marginRight="5dp"
         		android:layout_marginTop="2dp"
         		android:layout_marginBottom="2dp"
-        		android:stretchColumns="1"> 
+        		android:stretchColumns="1">
 			    <ImageView
 			         android:id="@+id/patientPic"
 			         android:layout_width="50dp"
 			         android:layout_height="50dp"
 			         android:gravity="center"/>
+			    <ImageView
+			        android:id="@+id/pillIcon"
+			        android:layout_width="10dp"
+			        android:layout_height="10dp"
+			        android:gravity="center_vertical"/> 
 			    <TextView
 			        android:id="@+id/patientName"
 			        android:layout_width="wrap_content"
 			        android:layout_height="fill_parent"
 			        android:textColor="@color/blue_text_color"
 			        android:gravity = "center_vertical" />
-			    <!-- 
-   			    <ImageView
-			        android:id="@+id/pillIcon"
-			        android:layout_width="10dp"
-			        android:layout_height="10dp"
-			        android:gravity="center"/>
-		         -->
     		</TableRow>
 	</TableLayout>
 </LinearLayout>

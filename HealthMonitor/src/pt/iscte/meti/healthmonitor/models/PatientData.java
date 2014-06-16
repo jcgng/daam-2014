@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 
-// TODO: Make this class Parcelable
-
 public class PatientData {
 	private int idPatients;
 	private String registerTimestamp;	

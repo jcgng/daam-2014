@@ -48,7 +48,7 @@ public class SwipeListListener implements View.OnTouchListener {
             }
         }
     }
-    /*** ***/
+    /******/
     
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {

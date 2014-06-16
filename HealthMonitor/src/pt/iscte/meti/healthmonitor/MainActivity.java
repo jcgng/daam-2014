@@ -2,15 +2,20 @@ package pt.iscte.meti.healthmonitor;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import pt.iscte.meti.healthmonitor.listeners.SwipeListListener;
 import pt.iscte.meti.healthmonitor.models.PatientData;
 import pt.iscte.meti.healthmonitor.models.PatientListAdapter;
-import pt.iscte.meti.healthmonitor.tasks.GetInfoTask;
+import pt.iscte.meti.healthmonitor.service.AlertsService;
+import pt.iscte.meti.healthmonitor.tasks.GetPatientsTask;
 
 import pt.iscte.meti.healthmonitor.R;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.Editable;
@@ -26,10 +31,16 @@ import android.widget.ListView;
  * TODO:
  * 
  * Important:
- *		Local medicine pill icon: Create AsyncTask to update icon and hour
- * 		Remote health values notification
+ *		Settings: Change login credentials, activate/deactivate notifications
+ *
+ *		Vibrate in alarm and vibrate in MonitorActivity new values		
+ *
+ *		Add clock with dateTime to MonitorActivity
+ *		Add chart with last 10 values to MonitorActivity
+ * 		Add retry to error alert
  * 
- * Clean code:
+ * Clean code & Design:
+ * 		Change pills image position
  * 		Remove all AsycTasks from activity classes	
  * 
  * Allow/resolve rotation problem
@@ -37,6 +48,9 @@ import android.widget.ListView;
  * @author João Guiomar
  */
 public class MainActivity extends Activity {
+	public static final String SERVER = "http://www.clevermobile.dx.am";
+	public static final String MY_PREFS = "MyPrefs";
+	
 	private ListView patientListView;
 	private EditText inputSearch;
 	
@@ -44,6 +58,8 @@ public class MainActivity extends Activity {
 	private SwipeListListener swipeListListener;
 	
 	private PatientListAdapter patientListAdapter = null;
+	
+	private Thread thread = null;
 	
 	private TextWatcher filterTextWatcher = new TextWatcher() {
 		@Override
@@ -92,21 +108,38 @@ public class MainActivity extends Activity {
 	    });
 		this.swipeListListener = new SwipeListListener(this);
 		this.patientListView.setOnTouchListener(this.swipeListListener);
-//		if(savedInstanceState==null) {
-			// get patients
-			if(LoginActivity.mUser!=null && LoginActivity.mPassword!=null)
-				new GetInfoTask(this,true).execute(GetInfoTask.REQUESTS.GET_PATIENT.toString());
-//		}
-			
-			// TODO: To update the ListView every minute
-//			final Handler handler = new Handler()
-//			handler.postDelayed( new Runnable() {
-//			    @Override
-//			    public void run() {
-//			        adapter.notifyDataSetChanged();
-//			        handler.postDelayed( this, 60 * 1000 );
-//			    }
-//			}, 60 * 1000 );
+		
+		if(LoginActivity.mUser!=null && LoginActivity.mPassword!=null) {
+			// start thread
+			thread = new Thread() {
+				@Override
+				public void run() {
+					try {
+						while (!isInterrupted()) {
+							Thread.sleep(1000);
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									if(LoginActivity.mUser!=null && LoginActivity.mPassword!=null)
+										new GetPatientsTask(MainActivity.this,true).execute(GetPatientsTask.REQUESTS.GET_PATIENT.toString());
+								}
+							});
+							Thread.sleep(1800000);
+						}
+				    } catch (InterruptedException e) {
+				    	
+				    }
+				}
+			};
+			thread.start();
+		}
+		// TODO: If notifications are active in settings
+		// start every 30 seconds
+		Calendar calendar = Calendar.getInstance();
+		Intent intent = new Intent(this, AlertsService.class);
+		PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30*1000, pendingIntent); 
 	}
 
 	@Override
@@ -115,18 +148,13 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
-//	@Override
-//	protected void onSaveInstanceState(Bundle savedInstanceState) {
-//		 super.onSaveInstanceState(savedInstanceState);
-//		 savedInstanceState.putSerializable("patientsList", patientListAdapter.getAllPatientsList());
-//	}
-//	@Override
-//	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//		patientsList.addAll((ArrayList<PatientData>)savedInstanceState.getSerializable("patientsList"));
-//		setPatientListAdapter();
-//        getPatientListView().setAdapter(getPatientListAdapter());
-//	}
+		
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(thread!=null && !thread.isInterrupted())
+			thread.interrupt();
+	}
 	
 	public ListView getPatientListView() {
 		return patientListView;

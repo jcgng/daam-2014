@@ -99,116 +99,120 @@ public class PatientListAdapter extends ArrayAdapter<PatientData> {
 	    nameTextView.setText(patientsList.get(position).getName() + "\nBed: " + patientsList.get(position).getBed());
 	
 	    // TODO: Add this to MedicationScheduleTask
-//	    ImageView pillImageView = (ImageView) view.findViewById(R.id.pillIcon);
-//	    ArrayList<MedicationData> medications =  patientsList.get(position).getMedications();    
-//	    Calendar calendar = Calendar.getInstance();
-//	    int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-//	    int currentMinute = calendar.get(Calendar.MINUTE);
-//	    for(MedicationData medication : medications) { 
-//	    	String schedule = medication.getSchedule(); 
-//		    if(schedule.equals(MedicationData.SCHEDULES.H24.toString())) {
-//		    	// set icon
-//	    		if(currentHour>=7 && currentMinute>=30) {
-//	    			pillImageView.setImageResource(R.drawable.pill);
-//	    			break;
-//	    		}
-//		    } else if(schedule.equals(MedicationData.SCHEDULES.H12.toString())) {
-//		    	if(currentHour<8) {
-//		    		// set icon
-//		    		if(currentHour>=7 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	} else {
-//		    		// set icon
-//		    		if(currentHour>=15 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	}
-//		    } else if(schedule.equals(MedicationData.SCHEDULES.H8.toString())) {
-//		    	if(currentHour<8)
-//			    	// set icon
-//		    		if(currentHour>=7 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	else if(currentHour<16)
-//		    		// set icon
-//		    		if(currentHour>=15 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	else if(currentHour<=23) 
-//		    		// set icon
-//		    		if(currentHour>=23 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    } else if(schedule.equals(MedicationData.SCHEDULES.H6.toString())) {
-//		    	if(currentHour<2 || currentHour>=20)
-//			    	// set icon
-//		    		if(currentHour>=1 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	else if(currentHour<8)
-//		    		// set icon
-//		    		if(currentHour>=7 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	else if(currentHour<14)
-//		    		// set icon
-//		    		if(currentHour>=13 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	else if(currentHour<20)
-//		    		// set icon
-//		    		if(currentHour>=19 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    } else if(schedule.equals(MedicationData.SCHEDULES.H4.toString())) {
-//		    	if(currentHour<4)
-//			    	// set icon
-//		    		if(currentHour>=3 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	if(currentHour<8)
-//			    	// set icon
-//					if(currentHour>=7 && currentMinute>=30) {
-//						pillImageView.setImageResource(R.drawable.pill);
-//						break;
-//		    		}
-//		    	else if(currentHour<12)
-//			    	// set icon
-//		    		if(currentHour>=11 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	else if(currentHour<16) 
-//			    	// set icon
-//		    		if(currentHour>=15 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	else if(currentHour<20) 
-//			    	// set icon
-//		    		if(currentHour>=19 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    	else if(currentHour<=23) 
-//			    	// set icon
-//		    		if(currentHour>=23 && currentMinute>=30) {
-//		    			pillImageView.setImageResource(R.drawable.pill);
-//		    			break;
-//		    		}
-//		    }
-//	    }
+	    ImageView pillImageView = (ImageView) view.findViewById(R.id.pillIcon);
+	    ArrayList<MedicationData> medications =  patientsList.get(position).getMedications();    
+	    Calendar calendar = Calendar.getInstance();
+	    int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+	    int currentMinute = calendar.get(Calendar.MINUTE);
+	    for(MedicationData medication : medications) { 
+	    	String schedule = medication.getSchedule(); 
+	    	if(schedule.equals(MedicationData.SCHEDULES.H24.toString())) {
+		    	// set icon
+	    		if(currentHour<8 && currentHour>=7 && currentMinute>=30) {
+	    			pillImageView.setImageResource(R.drawable.pill);
+	    			break;
+	    		}
+		    } else if(schedule.equals(MedicationData.SCHEDULES.H12.toString())) {
+		    	if(currentHour<8) {
+		    		// set icon
+		    		if(currentHour>=7 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else {
+		    		// set icon
+		    		if(currentHour>=15 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	}
+		    } else if(schedule.equals(MedicationData.SCHEDULES.H8.toString())) {
+		    	if(currentHour<8) {
+			    	// set icon
+		    		if(currentHour>=7 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<16) {
+		    		// set icon
+		    		if(currentHour>=15 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<=23) {
+		    		// set icon
+		    		if(currentHour>=23 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	}
+		    } else if(schedule.equals(MedicationData.SCHEDULES.H6.toString())) {
+		    	if(currentHour<2 || currentHour>=20) {
+			    	// set icon
+		    		if(currentHour>=1 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<8) {
+		    		// set icon
+		    		if(currentHour>=7 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<14) {
+		    		// set icon
+		    		if(currentHour>=13 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<20) {
+		    		// set icon
+		    		if(currentHour>=19 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	}
+		    } else if(schedule.equals(MedicationData.SCHEDULES.H4.toString())) {
+		    	if(currentHour<4) {
+			    	// set icon
+		    		if(currentHour>=3 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<8) {
+			    	// set icon
+					if(currentHour>=7 && currentMinute>=30) {
+						pillImageView.setImageResource(R.drawable.pill);
+						break;
+					}
+		    	} else if(currentHour<12) {
+			    	// set icon
+		    		if(currentHour>=11 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<16) { 
+			    	// set icon
+		    		if(currentHour>=15 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<20) { 
+			    	// set icon
+		    		if(currentHour>=19 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	} else if(currentHour<=23) { 
+			    	// set icon
+		    		if(currentHour>=23 && currentMinute>=30) {
+		    			pillImageView.setImageResource(R.drawable.pill);
+		    			break;
+		    		}
+		    	}
+		    }
+	    }
+	    //*/
 	    
 		return view;
     }

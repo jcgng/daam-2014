@@ -64,5 +64,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pt.iscte.meti.healthmonitor.MainActivity" />
         </activity>
+        <service 
+            android:enabled="true" 
+            android:name="pt.iscte.meti.healthmonitor.service.AlertsService" />
     </application>
 </manifest>

@@ -1,11 +1,15 @@
 package pt.iscte.meti.healthmonitor;
 
-import pt.iscte.meti.healthmonitor.tasks.GetInfoTask;
+import pt.iscte.meti.healthmonitor.db.HealthDS;
+import pt.iscte.meti.healthmonitor.draw.Drawing;
+import pt.iscte.meti.healthmonitor.models.HealthData;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
@@ -39,8 +43,17 @@ public class MonitorActivity extends Activity {
 		heartImageView = (ImageView) findViewById(R.id.heartImageView);
 		heartImageView.setImageResource(R.drawable.heart);
 		heartImageView.setVisibility(View.INVISIBLE);
-		// bind heart DrawView
+		// bind thermometer DrawView
 		thermometerImageView = (ImageView) findViewById(R.id.thermometerImageView);
+		thermometerImageView.setVisibility(View.INVISIBLE);
+		// start thermometer
+		final Drawing thermometer = new Drawing(thermometerImageView);
+		// start pulse
+		final Animation pulse = AnimationUtils.loadAnimation(MonitorActivity.this, R.anim.pulse);
+		pulse.setRepeatCount(Animation.INFINITE);
+		
+		final Integer idPatients = bundle.getInt("idPatients");
+		
 		// start thread
 		thread = new Thread() {
 			@Override
@@ -51,13 +64,29 @@ public class MonitorActivity extends Activity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								if(LoginActivity.mUser!=null && LoginActivity.mPassword!=null)
-									new GetInfoTask(MonitorActivity.this,false).execute(GetInfoTask.REQUESTS.GET_HEALTH.toString(),bedNumber);
+								// database open
+						        HealthDS datasource =  new HealthDS(MonitorActivity.this);
+								datasource.open();
+						        // save to database
+								HealthData healthData = datasource.getLastHealth(idPatients);
+						        // database close
+					            datasource.close();
+					            datasource = null;
+								
+					            if(healthData!=null) {
+									bpmTextView.setText(healthData.getBpm() + " bpm");
+									heartImageView.setVisibility(View.VISIBLE);
+									heartImageView.startAnimation(pulse);
+									
+									tempTextView.setText(healthData.getTemp() + " ºC");
+									thermometer.drawThermometer(healthData.getTemp());
+									thermometerImageView.setVisibility(View.VISIBLE);
+					            }
 							}
 						});
 					}
-			    } catch (InterruptedException e) {
-			    	
+			    } catch (InterruptedException ie) {
+			    	ie.printStackTrace();
 			    }
 			}
 		};

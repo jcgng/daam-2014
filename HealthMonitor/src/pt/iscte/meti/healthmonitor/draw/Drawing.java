@@ -43,7 +43,7 @@ public class Drawing {
             }  
             ydegree = ydegree - 2;  
         }
-        /*** ***/
+        /******/
         
         this.imageView.setImageBitmap(bg);
 	}

@@ -11,10 +11,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import pt.iscte.meti.healthmonitor.tasks.GetInfoTask;
+import pt.iscte.meti.healthmonitor.tasks.GetHealthTask;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,8 +38,8 @@ public class LoginActivity extends Activity {
 	private UserLoginTask mAuthTask = null;
 
 	// Values for email and password at the time of the login attempt.
-	public static String mUser = "joao.guiomar";
-	public static String mPassword = "ola";
+	public static String mUser = null;
+	public static String mPassword = null;
 
 	// UI references.
 	private EditText mUserView;
@@ -81,7 +82,7 @@ public class LoginActivity extends Activity {
 				public void onClick(View view) {
 					attemptLogin();
 				}
-			});
+		});
 	}
 
 	@Override
@@ -142,7 +143,6 @@ public class LoginActivity extends Activity {
 	}
 	
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-		private final String server = "http://www.clevermobile.dx.am";
 		private final String loginUrl = "%s/HealthMonitor/check-credentials.php?user=%s&pass=%s";
 		
 		private Activity activity = null;
@@ -161,7 +161,7 @@ public class LoginActivity extends Activity {
 	            out.close();
 	            responseString = out.toString();
 	        } else {
-	        	Log.e(GetInfoTask.class.getName(), "Failed to send get!");
+	        	Log.e(GetHealthTask.class.getName(), "Failed to send get!");
 	            // Closes the connection.
 	            response.getEntity().getContent().close();
 	            throw new IOException(statusLine.getReasonPhrase());
@@ -175,7 +175,7 @@ public class LoginActivity extends Activity {
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			String url = String.format(loginUrl,this.server,LoginActivity.mUser,LoginActivity.mPassword);
+			String url = String.format(loginUrl,MainActivity.SERVER,LoginActivity.mUser,LoginActivity.mPassword);
 			try {
 				sendGet(url);
 			} catch (ClientProtocolException e) {
@@ -201,7 +201,14 @@ public class LoginActivity extends Activity {
 			mAuthTask = null;
 			if(progressDiag.isShowing())
 	        	progressDiag.dismiss();
-			if (success) {
+			if(success) {
+				// save credentials
+				SharedPreferences settings = getSharedPreferences(MainActivity.MY_PREFS, 0);
+			    SharedPreferences.Editor editor = settings.edit();
+			    editor.putString("username", LoginActivity.mUser);
+			    editor.putString("password", LoginActivity.mPassword);
+			    editor.commit();
+			    // start main activity
 				Intent intent=new Intent(activity,MainActivity.class);
 				startActivity(intent);
 				finish();
