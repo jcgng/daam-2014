@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import pt.iscte.meti.healthmonitor.R;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +34,11 @@ public class PatientListAdapter extends ArrayAdapter<PatientData> {
 	 * Android ListView with Custom Layout and Filter 
 	 * http://www.mysamplecode.com/2012/07/android-listview-custom-layout-filter.html
 	 */
-	@Override
-	public Filter getFilter() {
+	@SuppressLint("DefaultLocale")
+	@Override public Filter getFilter() {
 	   if(filter == null){
 		   filter  = new Filter() {
-				@Override
+				@Override 
 				protected FilterResults performFiltering(CharSequence constraint) {
 					String search = constraint.toString();
 				    FilterResults result = new FilterResults();
@@ -62,8 +63,8 @@ public class PatientListAdapter extends ArrayAdapter<PatientData> {
 				    return result;
 				}
 
-				@Override
-				protected void publishResults(CharSequence constraint, FilterResults results) {
+				@SuppressWarnings("unchecked")
+				@Override protected void publishResults(CharSequence constraint, FilterResults results) {
 					patientsList = (ArrayList<PatientData>)results.values;
 				    notifyDataSetChanged();
 				    clear();

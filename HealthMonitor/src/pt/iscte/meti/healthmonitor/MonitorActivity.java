@@ -5,14 +5,11 @@ import pt.iscte.meti.healthmonitor.draw.Drawing;
 import pt.iscte.meti.healthmonitor.models.HealthData;
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.os.Build;
 
@@ -104,27 +101,10 @@ public class MonitorActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.monitor, menu);
-		return true;
-	}
-
-	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		if(thread!=null && !thread.isInterrupted())
 			thread.interrupt();
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 	
 	public TextView getBpmTextView() {

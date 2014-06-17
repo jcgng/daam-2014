@@ -40,4 +40,11 @@ public class HealthDB extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_HEALTH);
 	    onCreate(db);
 	}
+	
+	@Override
+	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_PATIENTS);
+		db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_HEALTH);
+	    onCreate(db);
+	}
 }

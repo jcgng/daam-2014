@@ -8,31 +8,10 @@
    <color name="black_text_color">#000000</color>
    <color name="blue_text_color">#3988A8</color>
    <color name="red_text_color">#8F0404</color>
-   
-   <!-- colors -->
+   <color name="gray_text_color">#808080</color>
+
    <color name="white_color">#FFFFFF</color>
    <color name="light_blue">#47AAD2</color>
    <color name="light_yellow">#FFFF99</color>
-   
-   <!-- not used -->
-   <!-- 
-   <color name="font_face">#FFFFFF</color>
-   <color name="main_font_face">#000000</color>
-   <color name="button_font_face">#000000</color>
-   <color name="divider_color">#E7E3E7</color>
-   <color name="title_background_color">#3232CD</color>
-   <color name="title_text_color">#FFFF00</color>
-   <color name="btn_on">#00ffffff</color>
-   <color name="btn_off">#00ffffff</color>
-   <color name="black_background">#AA000000</color>
-   <color name="clear_color1">#00000000</color>
-   <color name="red_color">#66AA0000</color>
-   <color name="blue_color">#66284D8C</color>
-   <color name="clear_color2">#00000000</color>
-   <color name="light_gray_color">#FFBBBBBB</color>
-   <color name="translucent_color">#00000000</color>
-   <color name="dark_gray_background">#EE2F2F2F</color>
-   <color name="pressed">#CCAAAAAA</color>
-   <color name="gray_color">#808080</color>
-   -->
+
 </resources>

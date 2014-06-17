@@ -17,19 +17,17 @@ import org.json.JSONObject;
 import pt.iscte.meti.healthmonitor.LoginActivity;
 import pt.iscte.meti.healthmonitor.MainActivity;
 import pt.iscte.meti.healthmonitor.MonitorActivity;
-import pt.iscte.meti.healthmonitor.R;
 import pt.iscte.meti.healthmonitor.db.HealthDS;
 import pt.iscte.meti.healthmonitor.models.HealthData;
 import pt.iscte.meti.healthmonitor.service.AlertsService;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
@@ -80,7 +78,7 @@ public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
 	
 	private JSONArray GetHealth(int idPatients) throws ClientProtocolException, IOException, JSONException {
 		JSONArray jsonArray = null;
-		String url = String.format(healthUrl,MainActivity.SERVER,LoginActivity.mUser,LoginActivity.mPassword,idPatients);
+		String url = String.format(healthUrl,MainActivity.serverAddress,LoginActivity.mUser,LoginActivity.mPassword,idPatients);
 		String healthInfo = sendGet(url);
 		jsonArray = new JSONArray(healthInfo);
 		Log.i(GetHealthTask.class.getName(), "Number of entries " + jsonArray.length());
@@ -118,12 +116,14 @@ public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
             datasource.close();
             datasource = null;
             // test values and send notification
-            if ((res==0) && (healthData.getBpm()<55 || healthData.getBpm()>100 || healthData.getTemp()<35 || healthData.getTemp()>37)) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(alertsService);
+            boolean alerts = settings.getBoolean("notification_alerts", true);
+            if(alerts && (res==0) && (healthData.getBpm()<55 || healthData.getBpm()>100 || healthData.getTemp()<35 || healthData.getTemp()>37)) {
 	            Intent intent = new Intent(alertsService, MonitorActivity.class);
 	            intent.putExtra("name",healthData.getName());
 	            intent.putExtra("bedNumber",healthData.getBedNumber());
 	            intent.putExtra("idPatients",healthData.getIdPatients());
-	            alertsService.sendNotification("Health Monitor","Alert: " + healthData.getName(),intent);
+	            alertsService.sendNotification("Health Monitor","Alert: " + healthData.getName() + " " + healthData.getBpm() + " bpm " + healthData.getTemp() + " ºC",intent);
             }
 		}
 	}

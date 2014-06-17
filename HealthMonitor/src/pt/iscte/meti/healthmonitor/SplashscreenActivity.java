@@ -2,6 +2,7 @@ package pt.iscte.meti.healthmonitor;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +18,8 @@ public class SplashscreenActivity extends Activity {
             @Override
             public void run() {
             	// Restore preferences
-                SharedPreferences settings = getSharedPreferences(MainActivity.MY_PREFS, 0);
+            	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(SplashscreenActivity.this);
+            	MainActivity.serverAddress = settings.getString("server_address", null);
                 LoginActivity.mUser = settings.getString("username", null);
                 LoginActivity.mPassword = settings.getString("password", null);
             	if(LoginActivity.mUser==null || LoginActivity.mPassword==null) {

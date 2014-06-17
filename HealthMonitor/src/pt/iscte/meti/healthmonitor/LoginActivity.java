@@ -18,10 +18,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -87,8 +89,17 @@ public class LoginActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.login, menu);
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		
+		menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+	        public boolean onMenuItemClick(MenuItem item) {
+	            Intent settingsIntent = new Intent(LoginActivity.this, SettingsActivity.class);
+	            LoginActivity.this.startActivity(settingsIntent);
+	            return false;
+	        }
+	    });
+		
 		return true;
 	}
 
@@ -175,7 +186,7 @@ public class LoginActivity extends Activity {
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			String url = String.format(loginUrl,MainActivity.SERVER,LoginActivity.mUser,LoginActivity.mPassword);
+			String url = String.format(loginUrl,MainActivity.serverAddress,LoginActivity.mUser,LoginActivity.mPassword);
 			try {
 				sendGet(url);
 			} catch (ClientProtocolException e) {
@@ -203,7 +214,7 @@ public class LoginActivity extends Activity {
 	        	progressDiag.dismiss();
 			if(success) {
 				// save credentials
-				SharedPreferences settings = getSharedPreferences(MainActivity.MY_PREFS, 0);
+				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
 			    SharedPreferences.Editor editor = settings.edit();
 			    editor.putString("username", LoginActivity.mUser);
 			    editor.putString("password", LoginActivity.mPassword);

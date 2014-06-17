@@ -81,7 +81,7 @@ public class GetPatientsTask extends AsyncTask<String,String,JSONArray> {
 	}
 		
 	private Bitmap downloadPhoto(String photo) throws IOException {
-		String urlStr = String.format(photoUrl,MainActivity.SERVER,photo);
+		String urlStr = String.format(photoUrl,MainActivity.serverAddress,photo);
 		URL url = new URL(urlStr);
 	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	    conn.setDoInput(true);
@@ -91,7 +91,7 @@ public class GetPatientsTask extends AsyncTask<String,String,JSONArray> {
 	
 	private JSONArray GetPatients() throws ClientProtocolException, IOException, JSONException {
 		JSONArray jsonArray = null;
-		String url = String.format(patientsUrl,MainActivity.SERVER,LoginActivity.mUser,LoginActivity.mPassword);
+		String url = String.format(patientsUrl,MainActivity.serverAddress,LoginActivity.mUser,LoginActivity.mPassword);
 		String patientsInfo = sendGet(url);
 		jsonArray = new JSONArray(patientsInfo);
 		Log.i(GetHealthTask.class.getName(), "Number of entries " + jsonArray.length());

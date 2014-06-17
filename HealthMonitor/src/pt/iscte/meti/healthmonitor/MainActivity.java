@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -48,9 +49,8 @@ import android.widget.ListView;
  * @author João Guiomar
  */
 public class MainActivity extends Activity {
-	public static final String SERVER = "http://www.clevermobile.dx.am";
-	public static final String MY_PREFS = "MyPrefs";
-	
+	public static String serverAddress = null;
+
 	private ListView patientListView;
 	private EditText inputSearch;
 	
@@ -73,13 +73,14 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);		
+		setContentView(R.layout.activity_main);
 		// bind ListView
 		patientListView = (ListView) findViewById(R.id.patientListView);
 		patientListView.setTextFilterEnabled(true);
 		// bind EditText
 		inputSearch = (EditText) findViewById(R.id.inputSearch);
 		inputSearch.addTextChangedListener(filterTextWatcher);
+		
 		// set listeners
 		this.patientListView.setOnItemClickListener(new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -146,6 +147,15 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		
+		menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+	        public boolean onMenuItemClick(MenuItem item) {
+	            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+	            MainActivity.this.startActivity(settingsIntent);
+	            return false;
+	        }
+	    });
+		
 		return true;
 	}
 		

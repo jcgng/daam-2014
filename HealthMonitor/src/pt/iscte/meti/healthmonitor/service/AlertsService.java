@@ -2,8 +2,6 @@ package pt.iscte.meti.healthmonitor.service;
 
 import java.util.List;
 
-import pt.iscte.meti.healthmonitor.MainActivity;
-import pt.iscte.meti.healthmonitor.MonitorActivity;
 import pt.iscte.meti.healthmonitor.R;
 import pt.iscte.meti.healthmonitor.db.HealthDS;
 import pt.iscte.meti.healthmonitor.tasks.GetHealthTask;
@@ -13,6 +11,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 public class AlertsService extends Service {
@@ -20,12 +19,12 @@ public class AlertsService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// get credentials
-		SharedPreferences settings = getSharedPreferences(MainActivity.MY_PREFS, 0);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String mUser = settings.getString("username", null);
         String mPassword = settings.getString("password", null);
 		if(mUser!=null && mPassword!=null) {
 	        // get patients
-	        HealthDS datasource =  new HealthDS(this);
+	        HealthDS datasource = new HealthDS(this);
 			datasource.open();
 			List<Integer> patients = datasource.getAllPatients();
 			// database close
