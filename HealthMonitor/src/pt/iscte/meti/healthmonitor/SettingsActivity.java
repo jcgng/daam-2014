@@ -118,6 +118,7 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 	}
 
+	
 	/**
 	 * A preference value change listener that updates the preference's summary
 	 * to reflect its new value.
@@ -127,7 +128,6 @@ public class SettingsActivity extends PreferenceActivity {
 		public boolean onPreferenceChange(Preference preference, Object value) {
 			String key = preference.getKey();
 			if(key.equals("username") || key.equals("password") || key.equals("server_address")) {
-				
 				// TODO: Check credentials and reset database
 			}
 			

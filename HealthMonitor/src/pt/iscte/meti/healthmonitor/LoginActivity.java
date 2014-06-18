@@ -96,6 +96,7 @@ public class LoginActivity extends Activity {
 	        public boolean onMenuItemClick(MenuItem item) {
 	            Intent settingsIntent = new Intent(LoginActivity.this, SettingsActivity.class);
 	            LoginActivity.this.startActivity(settingsIntent);
+//	            finish();
 	            return false;
 	        }
 	    });

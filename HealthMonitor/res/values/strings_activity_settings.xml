@@ -12,6 +12,6 @@
     
     <string name="pref_notification_alerts">Health Alerts</string>	
     <string name="pref_data_sync_server">Server Address</string>
-    <string name="pref_default_server">http://192.168.0.103</string>
+    <string name="pref_default_server">http://www.clevermobile.dx.am</string>
     
 </resources>

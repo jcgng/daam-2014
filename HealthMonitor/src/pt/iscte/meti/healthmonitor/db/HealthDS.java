@@ -121,7 +121,7 @@ public class HealthDS {
     	String[] whereArgs = new String[] {
 			idPatients.toString() 
 		};
-    	String orderBy = columnsHealth[3];
+    	String orderBy = columnsHealth[0];
 	    	
 	    Cursor cursor = database.query(HealthDB.DB_TABLE_HEALTH, columnsHealth, whereClause, whereArgs, null, null, orderBy);
 
@@ -136,7 +136,7 @@ public class HealthDS {
 	  }
 
 	  public HealthData getLastHealth(Integer idPatients) {
-		  Cursor cursor = database.rawQuery("SELECT * FROM " + HealthDB.DB_TABLE_HEALTH + " WHERE idPatients = " + idPatients.toString() + " ORDER BY " + columnsHealth[3] + " DESC LIMIT 1", null);
+		  Cursor cursor = database.rawQuery("SELECT * FROM " + HealthDB.DB_TABLE_HEALTH + " WHERE idPatients = " + idPatients.toString() + " ORDER BY " + columnsHealth[0] + " DESC LIMIT 1", null);
 		  HealthData healthData = null;
 		  cursor.moveToFirst();
 		  while(!cursor.isAfterLast()) {

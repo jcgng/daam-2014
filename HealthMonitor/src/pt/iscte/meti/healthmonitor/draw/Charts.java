@@ -25,6 +25,7 @@ public class Charts {
 		graphView.getGraphViewStyle().setTextSize(12);
 		graphView.getGraphViewStyle().setNumHorizontalLabels(2);
 		graphView.getGraphViewStyle().setNumVerticalLabels(5);
+		graphView.getGraphViewStyle().setVerticalLabelsWidth(12);
 		
 	}
 	public static View drawBPMLineChart(Context context, List<HealthData> chartData) {

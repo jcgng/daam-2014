@@ -50,8 +50,9 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent"
 		    android:layout_alignParentRight="true" 
-		    android:divider="#00000000"
-			android:cacheColorHint= "#00000000">
+		    android:divider="@color/white_color"
+		    android:dividerHeight="1dp"
+			android:cacheColorHint= "@android:color/transparent">
 	    </ListView>
 	</RelativeLayout>
 	

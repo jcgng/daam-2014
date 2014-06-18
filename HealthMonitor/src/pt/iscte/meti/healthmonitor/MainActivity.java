@@ -35,6 +35,8 @@ import android.widget.ListView;
  * TODO:
  * 
  * Important:
+ *  Add settings icon
+ *  Resize all images 
  * 	Add retry to error alert
  * 
  * Clean code & Design:
@@ -154,6 +156,7 @@ public class MainActivity extends Activity {
 	        public boolean onMenuItemClick(MenuItem item) {
 	            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
 	            MainActivity.this.startActivity(settingsIntent);
+//	            finish();
 	            return false;
 	        }
 	    });
