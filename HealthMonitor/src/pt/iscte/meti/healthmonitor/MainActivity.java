@@ -12,17 +12,20 @@ import pt.iscte.meti.healthmonitor.tasks.GetPatientsTask;
 
 import pt.iscte.meti.healthmonitor.R;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -32,17 +35,10 @@ import android.widget.ListView;
  * TODO:
  * 
  * Important:
- *		Settings: Change login credentials, activate/deactivate notifications
- *
- *		Vibrate in alarm and vibrate in MonitorActivity new values		
- *
- *		Add clock with dateTime to MonitorActivity
- *		Add chart with last 10 values to MonitorActivity
- * 		Add retry to error alert
+ * 	Add retry to error alert
  * 
  * Clean code & Design:
- * 		Change pills image position
- * 		Remove all AsycTasks from activity classes	
+ * 	Remove all AsycTasks from activity classes	
  * 
  * Allow/resolve rotation problem
  * 
@@ -74,6 +70,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		// hide keyboard
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		// bind ListView
 		patientListView = (ListView) findViewById(R.id.patientListView);
 		patientListView.setTextFilterEnabled(true);
@@ -134,13 +132,17 @@ public class MainActivity extends Activity {
 			};
 			thread.start();
 		}
-		// TODO: If notifications are active in settings
-		// start every 30 seconds
-		Calendar calendar = Calendar.getInstance();
-		Intent intent = new Intent(this, AlertsService.class);
-		PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
-		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30*1000, pendingIntent); 
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+    	boolean alerts = settings.getBoolean("notification_alerts", true);
+        if(alerts) {
+			// start every 30 seconds
+			Calendar calendar = Calendar.getInstance();
+			Intent intent = new Intent(this, AlertsService.class);
+			PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+			alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30*1000, pendingIntent); 
+        }
 	}
 
 	@Override
@@ -160,8 +162,8 @@ public class MainActivity extends Activity {
 	}
 		
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onStop() {
+		super.onStop();
 		if(thread!=null && !thread.isInterrupted())
 			thread.interrupt();
 	}

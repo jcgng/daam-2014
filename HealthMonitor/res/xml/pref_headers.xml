@@ -7,29 +7,28 @@
         android:textColor="@color/gray_text_color" 
         android:textSize="12sp" />
     <header
-        android:fragment="pt.iscte.meti.healthmonitor.SettingsActivity$NotificationPreferenceFragment"
-        android:title="@string/pref_header_notifications" 
-        android:textColor="@color/gray_text_color" 
-        android:textSize="12sp" />
-    <header
         android:fragment="pt.iscte.meti.healthmonitor.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" 
         android:textColor="@color/gray_text_color" 
         android:textSize="12sp" />
-
+	<header
+        android:fragment="pt.iscte.meti.healthmonitor.SettingsActivity$NotificationPreferenceFragment"
+        android:title="@string/pref_header_notifications" 
+        android:textColor="@color/gray_text_color" 
+        android:textSize="12sp" />
     <header
         android:fragment="pt.iscte.meti.healthmonitor.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" 
         android:textColor="@color/gray_text_color" 
         android:textSize="12sp" />
     <header
-        android:fragment="pt.iscte.meti.healthmonitor.SettingsActivity$NotificationPreferenceFragment"
-        android:title="@string/pref_header_notifications" 
+        android:fragment="pt.iscte.meti.healthmonitor.SettingsActivity$DataSyncPreferenceFragment"
+        android:title="@string/pref_header_data_sync" 
         android:textColor="@color/gray_text_color" 
         android:textSize="12sp" />
     <header
-        android:fragment="pt.iscte.meti.healthmonitor.SettingsActivity$DataSyncPreferenceFragment"
-        android:title="@string/pref_header_data_sync" 
+        android:fragment="pt.iscte.meti.healthmonitor.SettingsActivity$NotificationPreferenceFragment"
+        android:title="@string/pref_header_notifications" 
         android:textColor="@color/gray_text_color" 
         android:textSize="12sp" />
 

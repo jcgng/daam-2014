@@ -102,14 +102,14 @@ public class HealthDS {
 
 	  public void deleteHealth(HealthData healthData) {
 		  String id = healthData.getId() + "";
-		  String whereClause = HealthDB.DB_TABLE_ID + " = ?" + id;
+		  String whereClause = HealthDB.DB_TABLE_ID + " = ?";
 		  String[] whereArgs = new String[] { id };
 		  database.delete(HealthDB.DB_TABLE_HEALTH, whereClause, whereArgs);
 	  }
 
 	  public void deletePatientHealth(HealthData healthData) {
 		  String id = healthData.getIdPatients() + "";
-		  String whereClause = HealthDB.DB_TABLE_ID_PATIENTS + " = ?" + id;
+		  String whereClause = HealthDB.DB_TABLE_ID_PATIENTS + " = ?";
 		  String[] whereArgs = new String[] { id };
 		  database.delete(HealthDB.DB_TABLE_HEALTH, whereClause, whereArgs);
 	  }
@@ -117,7 +117,7 @@ public class HealthDS {
 	  public List<HealthData> getHealth(Integer idPatients) {
 	    List<HealthData> healthData = new ArrayList<HealthData>();
 
-    	String whereClause = HealthDB.DB_TABLE_ID_PATIENTS + " = ? ";
+    	String whereClause = HealthDB.DB_TABLE_ID_PATIENTS + " = ?";
     	String[] whereArgs = new String[] {
 			idPatients.toString() 
 		};

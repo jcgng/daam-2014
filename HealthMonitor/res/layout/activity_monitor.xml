@@ -10,7 +10,7 @@
     tools:context=".MonitorActivity" >
    <LinearLayout
 	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" 
+	    android:layout_height="wrap_content" 
 	    android:orientation="vertical">
 	    <TableLayout
 		      android:layout_width="fill_parent"
@@ -38,8 +38,24 @@
 				      	android:layout_width="fill_parent"
 		        		android:layout_height="fill_parent" 
 		        		android:background="@color/even_lines_gray" 
-		        		android:padding="5dip" >
+		        		android:padding="2dip" >
 			  	</TableRow>
+		</TableLayout>
+		<TableLayout
+		      android:layout_width="fill_parent"
+		      android:layout_height="wrap_content"
+		      android:stretchColumns="*" >
+			    <TableRow 
+			      	android:layout_width="fill_parent"
+	        		android:layout_height="fill_parent"
+	        		android:gravity = "center_vertical">
+				    <TextView
+			            android:id="@+id/dateTime"
+	        			android:layout_width="wrap_content"
+	        			android:layout_height="fill_parent"
+	        			android:textColor="@color/blue_text_color"
+	        			android:gravity = "center_vertical"  />
+				</TableRow>
 		</TableLayout>
 		<TableLayout
 		      android:layout_width="fill_parent"
@@ -72,6 +88,30 @@
 			      		android:textColor="@color/blue_text_color" 
 			      		android:gravity = "center_vertical"  />
 				</TableRow>
+				<TableRow 
+				      	android:layout_width="fill_parent"
+		        		android:layout_height="fill_parent" 
+		        		android:background="@color/even_lines_gray" 
+		        		android:padding="2dip" >
+			  	</TableRow>
 		</TableLayout>
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content" 
+		    android:orientation="horizontal"
+		    android:gravity = "center" >
+		    <LinearLayout
+		        android:id="@+id/bpmChartLayout"
+			    android:layout_width="140dp"
+			    android:layout_height="140dp" 
+			    android:orientation="horizontal"
+			    android:gravity = "center"/>
+		    <LinearLayout
+		        android:id="@+id/tempChartLayout"
+			    android:layout_width="140dp"
+			    android:layout_height="140dp" 
+			    android:orientation="horizontal"
+			    android:gravity = "center"/>
+		 </LinearLayout>
 	</LinearLayout>
 </RelativeLayout>

@@ -6,9 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.widget.ImageView;
 
-public class Drawing {
+public class Drawings {
 	private ImageView imageView;
-	public Drawing(ImageView imageView) {
+	public Drawings(ImageView imageView) {
 		this.imageView= imageView; 
 	}
 	

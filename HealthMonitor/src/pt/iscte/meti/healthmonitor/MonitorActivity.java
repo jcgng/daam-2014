@@ -1,7 +1,10 @@
 package pt.iscte.meti.healthmonitor;
 
+import java.util.List;
+
 import pt.iscte.meti.healthmonitor.db.HealthDS;
-import pt.iscte.meti.healthmonitor.draw.Drawing;
+import pt.iscte.meti.healthmonitor.draw.Charts;
+import pt.iscte.meti.healthmonitor.draw.Drawings;
 import pt.iscte.meti.healthmonitor.models.HealthData;
 import android.os.Bundle;
 import android.app.Activity;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -18,6 +22,9 @@ public class MonitorActivity extends Activity {
 	private ImageView heartImageView = null;
 	private TextView tempTextView = null;
 	private ImageView thermometerImageView = null;
+	private TextView dateTimeTextView = null;
+	private LinearLayout bpmChartLayout = null;
+	private LinearLayout tempChartLayout = null;
 	private Thread thread = null;
 	
 	@Override
@@ -33,9 +40,10 @@ public class MonitorActivity extends Activity {
 		TextView bedNumberTextView = (TextView)findViewById(R.id.bedNumber);
 		final String bedNumber = "" + bundle.getInt("bedNumber");
 		bedNumberTextView.setText("Bed: " + bedNumber);
-		// bind bpm and temp TextView
+		// bind bpm, temp and dateTime TextView
 		this.bpmTextView = (TextView) findViewById(R.id.bpm);
 		this.tempTextView = (TextView) findViewById(R.id.temp);
+		this.dateTimeTextView = (TextView) findViewById(R.id.dateTime);
 		// bind heart ImageView
 		heartImageView = (ImageView) findViewById(R.id.heartImageView);
 		heartImageView.setImageResource(R.drawable.heart);
@@ -43,8 +51,11 @@ public class MonitorActivity extends Activity {
 		// bind thermometer DrawView
 		thermometerImageView = (ImageView) findViewById(R.id.thermometerImageView);
 		thermometerImageView.setVisibility(View.INVISIBLE);
+		// bind charts layout
+		bpmChartLayout = (LinearLayout) findViewById(R.id.bpmChartLayout);
+		tempChartLayout = (LinearLayout) findViewById(R.id.tempChartLayout);
 		// start thermometer
-		final Drawing thermometer = new Drawing(thermometerImageView);
+		final Drawings thermometer = new Drawings(thermometerImageView);
 		// start pulse
 		final Animation pulse = AnimationUtils.loadAnimation(MonitorActivity.this, R.anim.pulse);
 		pulse.setRepeatCount(Animation.INFINITE);
@@ -64,20 +75,33 @@ public class MonitorActivity extends Activity {
 								// database open
 						        HealthDS datasource =  new HealthDS(MonitorActivity.this);
 								datasource.open();
-						        // save to database
-								HealthData healthData = datasource.getLastHealth(idPatients);
+						        // get all health database
+								List<HealthData> healthList = datasource.getHealth(idPatients);
+//								HealthData healthData = datasource.getLastHealth(idPatients);
+								HealthData healthData = healthList.get(healthList.size()-1);
 						        // database close
 					            datasource.close();
 					            datasource = null;
-								
 					            if(healthData!=null) {
-									bpmTextView.setText(healthData.getBpm() + " bpm");
-									heartImageView.setVisibility(View.VISIBLE);
-									heartImageView.startAnimation(pulse);
-									
-									tempTextView.setText(healthData.getTemp() + " ºC");
-									thermometer.drawThermometer(healthData.getTemp());
-									thermometerImageView.setVisibility(View.VISIBLE);
+					            	// check if different
+					            	String dateTime = healthData.getDateTime();
+					            	if(!dateTime.equals(dateTimeTextView.getText())) {
+						            	dateTimeTextView.setText(healthData.getDateTime());
+						            	
+										bpmTextView.setText(healthData.getBpm() + " bpm");
+										heartImageView.setVisibility(View.VISIBLE);
+										heartImageView.startAnimation(pulse);
+										
+										tempTextView.setText(healthData.getTemp() + " ºC");
+										thermometer.drawThermometer(healthData.getTemp());
+										thermometerImageView.setVisibility(View.VISIBLE);
+										
+										// set charts
+										bpmChartLayout.removeAllViews();
+										tempChartLayout.removeAllViews();
+										bpmChartLayout.addView(Charts.drawBPMLineChart(MonitorActivity.this, healthList));
+										tempChartLayout.addView(Charts.drawTempLineChart(MonitorActivity.this, healthList));
+					            	}
 					            }
 							}
 						});
@@ -101,8 +125,8 @@ public class MonitorActivity extends Activity {
 	}
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onStop() {
+		super.onStop();
 		if(thread!=null && !thread.isInterrupted())
 			thread.interrupt();
 	}

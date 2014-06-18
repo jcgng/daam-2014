@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -50,7 +51,7 @@ public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
 	private Builder alertDiag = null;
 
 	private HealthData healthData = null;
-	
+		
 	public GetHealthTask(Context context,boolean showDiags) {
 		this.context = context; 
 		this.showDiags = showDiags; 
@@ -112,6 +113,7 @@ public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
 			datasource.open();
 	        // save to database
             int res = datasource.addHealth(healthData);
+            Vibrator vibe = (Vibrator) alertsService.getSystemService(Context.VIBRATOR_SERVICE);
 	        // database close
             datasource.close();
             datasource = null;
@@ -124,6 +126,11 @@ public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
 	            intent.putExtra("bedNumber",healthData.getBedNumber());
 	            intent.putExtra("idPatients",healthData.getIdPatients());
 	            alertsService.sendNotification("Health Monitor","Alert: " + healthData.getName() + " " + healthData.getBpm() + " bpm " + healthData.getTemp() + " ºC",intent);
+	            // Vibrate for 5 seconds
+            	vibe.vibrate(5000);
+            } else if(res==0) {
+            	// Vibrate for 500 milliseconds
+            	vibe.vibrate(500);
             }
 		}
 	}
