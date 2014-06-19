@@ -63,55 +63,57 @@ public class MonitorActivity extends Activity {
 		final Integer idPatients = bundle.getInt("idPatients");
 		
 		// start thread
-		thread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					while (!isInterrupted()) {
-						Thread.sleep(1000);
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								// database open
-						        HealthDS datasource =  new HealthDS(MonitorActivity.this);
-								datasource.open();
-						        // get all health database
-								List<HealthData> healthList = datasource.getHealth(idPatients);
-//								HealthData healthData = datasource.getLastHealth(idPatients);
-								HealthData healthData = healthList.get(healthList.size()-1);
-						        // database close
-					            datasource.close();
-					            datasource = null;
-					            if(healthData!=null) {
-					            	// check if different
-					            	String dateTime = healthData.getDateTime();
-					            	if(!dateTime.equals(dateTimeTextView.getText())) {
-						            	dateTimeTextView.setText(healthData.getDateTime());
-						            	
-										bpmTextView.setText(healthData.getBpm() + " bpm");
-										heartImageView.setVisibility(View.VISIBLE);
-										heartImageView.startAnimation(pulse);
-										
-										tempTextView.setText(healthData.getTemp() + " ºC");
-										thermometer.drawThermometer(healthData.getTemp());
-										thermometerImageView.setVisibility(View.VISIBLE);
-										
-										// set charts
-										bpmChartLayout.removeAllViews();
-										tempChartLayout.removeAllViews();
-										bpmChartLayout.addView(Charts.drawBPMLineChart(MonitorActivity.this, healthList));
-										tempChartLayout.addView(Charts.drawTempLineChart(MonitorActivity.this, healthList));
-					            	}
-					            }
-							}
-						});
-					}
-			    } catch (InterruptedException ie) {
-			    	ie.printStackTrace();
-			    }
-			}
-		};
-		thread.start();
+		if(thread==null || !thread.isAlive()) {
+			thread = new Thread() {
+				@Override
+				public void run() {
+					try {
+						while (!isInterrupted()) {
+							Thread.sleep(1000);
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									// database open
+							        HealthDS datasource =  new HealthDS(MonitorActivity.this);
+									datasource.open();
+							        // get all health database
+									List<HealthData> healthList = datasource.getHealth(idPatients);
+	//								HealthData healthData = datasource.getLastHealth(idPatients);
+									HealthData healthData = healthList.get(healthList.size()-1);
+							        // database close
+						            datasource.close();
+						            datasource = null;
+						            if(healthData!=null) {
+						            	// check if different
+						            	String dateTime = healthData.getDateTime();
+						            	if(!dateTime.equals(dateTimeTextView.getText())) {
+							            	dateTimeTextView.setText(healthData.getDateTime());
+							            	
+											bpmTextView.setText(healthData.getBpm() + " bpm");
+											heartImageView.setVisibility(View.VISIBLE);
+											heartImageView.startAnimation(pulse);
+											
+											tempTextView.setText(healthData.getTemp() + " ºC");
+											thermometer.drawThermometer(healthData.getTemp());
+											thermometerImageView.setVisibility(View.VISIBLE);
+											
+											// set charts
+											bpmChartLayout.removeAllViews();
+											tempChartLayout.removeAllViews();
+											bpmChartLayout.addView(Charts.drawBPMLineChart(MonitorActivity.this, healthList));
+											tempChartLayout.addView(Charts.drawTempLineChart(MonitorActivity.this, healthList));
+						            	}
+						            }
+								}
+							});
+						}
+				    } catch (InterruptedException ie) {
+				    	ie.printStackTrace();
+				    }
+				}
+			};
+			thread.start();
+		}
 	}
 
 	/**
@@ -125,10 +127,13 @@ public class MonitorActivity extends Activity {
 	}
 
 	@Override
-	public void onStop() {
-		super.onStop();
-		if(thread!=null && !thread.isInterrupted())
+	public void onDestroy() {
+		super.onDestroy();
+		if(thread!=null && !thread.isInterrupted()) {
 			thread.interrupt();
+			thread = null;
+		}
+		
 	}
 	
 	public TextView getBpmTextView() {

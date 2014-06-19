@@ -19,6 +19,8 @@ public class SwipeListListener implements View.OnTouchListener {
     private View selected = null;
     private int position;
     
+//  private float currentTextSize;
+    
     public SwipeListListener(Activity mainActivity) {
     	this.mainActivity = (MainActivity) mainActivity; 
     }
@@ -57,6 +59,8 @@ public class SwipeListListener implements View.OnTouchListener {
 	            downY = event.getRawY();
 	            // get selected child
 	            findDownChild(downX,downY);
+	            // save text size
+//	            currentTextSize = ((TextView)selected.findViewById(R.id.patientName)).getTextSize();
 	            return false; // allow other events like Click to be processed
 	        case MotionEvent.ACTION_MOVE:
 	            upX = event.getRawX();
@@ -74,6 +78,8 @@ public class SwipeListListener implements View.OnTouchListener {
 	                		// change text
 	                		TextView textView = (TextView)selected.findViewById(R.id.patientName);
 	                		textView.setText("Monitor");
+//	                		textView.setTextSize(currentTextSize+5f);
+	                		textView.setTextColor(mainActivity.getResources().getColor(R.color.red_text_color));
 	                		// get patient
 	                		PatientData patient = mainActivity.getPatientListData().get(position);
 	                		if((-1*deltaX) >= (0.8*selected.getWidth())) {
@@ -115,6 +121,8 @@ public class SwipeListListener implements View.OnTouchListener {
 	        		TextView textView = (TextView)selected.findViewById(R.id.patientName);
 	        		PatientData patient = mainActivity.getPatientListData().get(position);
 	        		textView.setText(patient.getName() + "\nBed: " + patient.getBed());
+//	        		textView.setTextSize(currentTextSize-5f);
+	        		textView.setTextColor(mainActivity.getResources().getColor(R.color.blue_text_color));
 	        	}
 	        	// reset child
 	        	selected = null;

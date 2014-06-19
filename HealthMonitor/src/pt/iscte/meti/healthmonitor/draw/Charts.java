@@ -14,7 +14,7 @@ import android.content.Context;
 import android.view.View;
 
 /**
- * GraphView library usage simple class
+ * Simple class for GraphView library usage
  * http://android-graphview.org/
  */
 public class Charts {
@@ -25,7 +25,7 @@ public class Charts {
 		graphView.getGraphViewStyle().setTextSize(12);
 		graphView.getGraphViewStyle().setNumHorizontalLabels(2);
 		graphView.getGraphViewStyle().setNumVerticalLabels(5);
-		graphView.getGraphViewStyle().setVerticalLabelsWidth(12);
+		graphView.getGraphViewStyle().setVerticalLabelsWidth(30);
 		
 	}
 	public static View drawBPMLineChart(Context context, List<HealthData> chartData) {

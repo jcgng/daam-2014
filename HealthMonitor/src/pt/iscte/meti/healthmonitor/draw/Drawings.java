@@ -23,7 +23,7 @@ public class Drawings {
 		 *
 		 * @author yuanbieli 2011-08-05 
 		 */
-        int y = 260 - (int) ((temp - 35) * 20);  
+        int y = 260 - (int) (((temp>45.5?45.5:temp) - 35) * 20);  
         paint.setColor(Color.WHITE);  
         canvas.drawRect(40, 50, 60, 280, paint);  
         Paint paintCircle = new Paint();

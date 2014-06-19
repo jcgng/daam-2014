@@ -99,7 +99,6 @@ public class PatientListAdapter extends ArrayAdapter<PatientData> {
 	    TextView nameTextView = (TextView) view.findViewById(R.id.patientName);
 	    nameTextView.setText(patientsList.get(position).getName() + "\nBed: " + patientsList.get(position).getBed());
 	
-	    // TODO: Add this to MedicationScheduleTask
 	    ImageView pillImageView = (ImageView) view.findViewById(R.id.pillIcon);
 	    ArrayList<MedicationData> medications =  patientsList.get(position).getMedications();    
 	    Calendar calendar = Calendar.getInstance();
@@ -212,9 +211,7 @@ public class PatientListAdapter extends ArrayAdapter<PatientData> {
 		    		}
 		    	}
 		    }
-	    }
-	    //*/
-	    
+	    }	    
 		return view;
     }
 	

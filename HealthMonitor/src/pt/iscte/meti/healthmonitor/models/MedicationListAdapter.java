@@ -40,7 +40,6 @@ public class MedicationListAdapter extends ArrayAdapter<MedicationData> {
 	    TextView patientDosageTextView = (TextView) view.findViewById(R.id.patientDosage);
 	    patientDosageTextView.setText("Dosage: " + medicationList.get(position).getPatientDosage());
 	    
-	    // TODO: Add this to MedicationScheduleTask
 	    TextView scheduleTextView = (TextView) view.findViewById(R.id.schedule);
 	    ImageView pillImageView = (ImageView) view.findViewById(R.id.pillIcon);
 	    String schedule = medicationList.get(position).getSchedule();

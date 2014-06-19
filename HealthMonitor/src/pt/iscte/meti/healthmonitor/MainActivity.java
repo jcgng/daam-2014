@@ -35,8 +35,6 @@ import android.widget.ListView;
  * TODO:
  * 
  * Important:
- *  Add settings icon
- *  Resize all images 
  * 	Add retry to error alert
  * 
  * Clean code & Design:
@@ -110,7 +108,7 @@ public class MainActivity extends Activity {
 		this.swipeListListener = new SwipeListListener(this);
 		this.patientListView.setOnTouchListener(this.swipeListListener);
 		
-		if(LoginActivity.mUser!=null && LoginActivity.mPassword!=null) {
+		if((thread==null || !thread.isAlive()) && LoginActivity.mUser!=null && LoginActivity.mPassword!=null) {
 			// start thread
 			thread = new Thread() {
 				@Override
@@ -134,7 +132,7 @@ public class MainActivity extends Activity {
 			};
 			thread.start();
 		}
-
+		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
     	boolean alerts = settings.getBoolean("notification_alerts", true);
         if(alerts) {
@@ -152,23 +150,25 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		
+		menu.getItem(0).setIcon(R.drawable.menu_icon);
 		menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 	        public boolean onMenuItemClick(MenuItem item) {
 	            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
 	            MainActivity.this.startActivity(settingsIntent);
-//	            finish();
 	            return false;
 	        }
 	    });
 		
 		return true;
 	}
-		
+	
 	@Override
-	public void onStop() {
-		super.onStop();
-		if(thread!=null && !thread.isInterrupted())
+	public void onDestroy() {
+		super.onDestroy();
+		if(thread!=null && !thread.isInterrupted()) {
 			thread.interrupt();
+			thread = null;
+		}
 	}
 	
 	public ListView getPatientListView() {

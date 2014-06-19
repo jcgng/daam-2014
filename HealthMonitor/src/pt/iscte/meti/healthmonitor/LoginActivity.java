@@ -92,11 +92,11 @@ public class LoginActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		
+		menu.getItem(0).setIcon(R.drawable.menu_icon);
 		menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 	        public boolean onMenuItemClick(MenuItem item) {
 	            Intent settingsIntent = new Intent(LoginActivity.this, SettingsActivity.class);
 	            LoginActivity.this.startActivity(settingsIntent);
-//	            finish();
 	            return false;
 	        }
 	    });
