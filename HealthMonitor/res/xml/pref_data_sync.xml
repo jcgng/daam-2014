@@ -11,5 +11,5 @@
         android:title="@string/pref_data_sync_server" 
         android:textColor="@color/blue_text_color"
         android:textSize="12sp" />
-
+	    
 </PreferenceScreen>

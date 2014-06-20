@@ -79,7 +79,9 @@ public class MonitorActivity extends Activity {
 							        // get all health database
 									List<HealthData> healthList = datasource.getHealth(idPatients);
 	//								HealthData healthData = datasource.getLastHealth(idPatients);
-									HealthData healthData = healthList.get(healthList.size()-1);
+									HealthData healthData = null;
+									if(healthList.size()>0)
+										healthData = healthList.get(healthList.size()-1); // get last
 							        // database close
 						            datasource.close();
 						            datasource = null;

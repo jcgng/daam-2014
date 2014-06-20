@@ -36,13 +36,15 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f070000;
         public static final int activity_vertical_margin=0x7f070001;
+        public static final int text_size_large=0x7f070003;
+        public static final int text_size_normal=0x7f070002;
     }
     public static final class drawable {
         public static final int heart=0x7f020000;
         public static final int ic_launcher=0x7f020001;
         public static final int man=0x7f020002;
-        public static final int pill=0x7f020003;
-        public static final int settings=0x7f020004;
+        public static final int menu_icon=0x7f020003;
+        public static final int pill=0x7f020004;
         public static final int splashscreen=0x7f020005;
         public static final int woman=0x7f020006;
     }
