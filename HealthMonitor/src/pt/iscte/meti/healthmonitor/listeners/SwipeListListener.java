@@ -9,9 +9,10 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
-public class SwipeListListener implements View.OnTouchListener {
+public class SwipeListListener implements OnTouchListener {
     private static final int MIN_DISTANCE = 100;
     private float downX, downY, upX, upY;
 
@@ -52,6 +53,7 @@ public class SwipeListListener implements View.OnTouchListener {
     }
     /******/
     
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
 	        case MotionEvent.ACTION_DOWN:
@@ -82,7 +84,7 @@ public class SwipeListListener implements View.OnTouchListener {
 	                		textView.setTextColor(mainActivity.getResources().getColor(R.color.red_text_color));
 	                		// get patient
 	                		PatientData patient = mainActivity.getPatientListData().get(position);
-	                		if((-1*deltaX) >= (0.8*selected.getWidth())) {
+	                		if((-1*deltaX) >= (0.8*selected.getWidth())) { // 80% launch activity
 	            		    	Intent intent = new Intent(selected.getContext(), MonitorActivity.class);
 	            		    	intent.putExtra("idPatients", patient.getId());
 	            		    	intent.putExtra("name", patient.getName());
