@@ -95,23 +95,27 @@
 		        		android:padding="2dip" >
 			  	</TableRow>
 		</TableLayout>
-		<LinearLayout
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content" 
-		    android:orientation="horizontal"
-		    android:gravity = "center" >
-		    <LinearLayout
-		        android:id="@+id/bpmChartLayout"
-			    android:layout_width="140dp"
-			    android:layout_height="140dp" 
-			    android:orientation="horizontal"
-			    android:gravity = "center"/>
-		    <LinearLayout
-		        android:id="@+id/tempChartLayout"
-			    android:layout_width="140dp"
-			    android:layout_height="140dp" 
-			    android:orientation="horizontal"
-			    android:gravity = "center"/>
-		 </LinearLayout>
+		<TableLayout
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:stretchColumns="*" >
+			<TableRow 
+		      	android:layout_width="fill_parent"
+        		android:layout_height="fill_parent"
+        		android:gravity = "center">
+			    <LinearLayout
+			        android:id="@+id/bpmChartLayout"
+				    android:layout_width="fill_parent"
+				    android:layout_height="200dp" 
+				    android:orientation="horizontal"
+				    android:gravity = "center"/>
+			    <LinearLayout
+			        android:id="@+id/tempChartLayout"
+				    android:layout_width="fill_parent"
+				    android:layout_height="200dp" 
+				    android:orientation="horizontal"
+				    android:gravity = "center"/>
+		    	</TableRow>
+		</TableLayout>
 	</LinearLayout>
 </RelativeLayout>

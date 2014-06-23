@@ -14,9 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pt.iscte.meti.healthmonitor.LoginActivity;
-import pt.iscte.meti.healthmonitor.MainActivity;
 import pt.iscte.meti.healthmonitor.MonitorActivity;
+import pt.iscte.meti.healthmonitor.R;
 import pt.iscte.meti.healthmonitor.db.HealthDS;
 import pt.iscte.meti.healthmonitor.models.HealthData;
 import pt.iscte.meti.healthmonitor.service.AlertsService;
@@ -79,10 +78,17 @@ public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
 	
 	private JSONArray GetHealth(int idPatients) throws ClientProtocolException, IOException, JSONException {
 		JSONArray jsonArray = null;
-		String url = String.format(healthUrl,MainActivity.serverAddress,LoginActivity.mUser,LoginActivity.mPassword,idPatients);
+		// get credentials
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+		String mUser = settings.getString("username", null);
+	    String mPassword = settings.getString("password", null);
+	    String serverAddress = settings.getString("server_address", context.getResources().getString(R.string.pref_default_server));
+		String url = String.format(healthUrl,serverAddress,mUser,mPassword,idPatients);
 		String healthInfo = sendGet(url);
-		jsonArray = new JSONArray(healthInfo);
-		Log.i(GetHealthTask.class.getName(), "Number of entries " + jsonArray.length());
+		if(healthInfo!=null && !healthInfo.equals("")) {
+			jsonArray = new JSONArray(healthInfo);
+			Log.i(GetHealthTask.class.getName(), "Number of entries " + jsonArray.length());
+		}
 		return jsonArray;
 	}
 

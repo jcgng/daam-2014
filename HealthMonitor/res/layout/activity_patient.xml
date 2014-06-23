@@ -126,7 +126,12 @@
 	        		android:layout_margin="2dip" 
 	        		android:padding="2dip">
 			   </TableRow>
-			   <TableRow 
+		</TableLayout>
+		<TableLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:stretchColumns="*">
+			<TableRow 
 		      		android:layout_margin="5dp"
 			      	android:layout_width="fill_parent"
 	        		android:layout_height="wrap_content">
@@ -152,7 +157,7 @@
 	        		android:layout_margin="2dip" 
 	        		android:padding="2dip">
 			   </TableRow>
-		</TableLayout>
+	    </TableLayout>
 		<ListView
 		    android:id="@+id/medicationListView"
 		    android:layout_width="fill_parent"

@@ -35,7 +35,7 @@ public class AlertsService extends Service {
 	        	new GetHealthTask(this,false).execute(GetHealthTask.REQUESTS.GET_HEALTH.toString(),idPatients.toString());
 	        }
 		}
-		return Service.START_STICKY;
+		return Service.START_NOT_STICKY;
 	}
 	
 	@Override

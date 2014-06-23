@@ -57,10 +57,10 @@ public class MedicationListAdapter extends ArrayAdapter<MedicationData> {
 	    		// set icon
 	    		if(currentHour>=7 && currentMinute>=30)
 	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else {
-	    		scheduleTextView.setText("16:00");
+	    	} else if(currentHour<20) {
+	    		scheduleTextView.setText("20:00");
 	    		// set icon
-	    		if(currentHour>=15 && currentMinute>=30)
+	    		if(currentHour>=19 && currentMinute>=30)
 	    			pillImageView.setImageResource(R.drawable.pill);
 	    	}
 	    } else if(schedule.equals(MedicationData.SCHEDULES.H8.toString())) {
@@ -81,7 +81,7 @@ public class MedicationListAdapter extends ArrayAdapter<MedicationData> {
 	    			pillImageView.setImageResource(R.drawable.pill);
 	    	}
 	    } else if(schedule.equals(MedicationData.SCHEDULES.H6.toString())) {
-	    	if(currentHour<2 || currentHour>=20) {
+	    	if(currentHour<2) {
 	    		scheduleTextView.setText("02:00");
 		    	// set icon
 	    		if(currentHour>=1 && currentMinute>=30)
@@ -101,6 +101,8 @@ public class MedicationListAdapter extends ArrayAdapter<MedicationData> {
 	    		// set icon
 	    		if(currentHour>=19 && currentMinute>=30)
 	    			pillImageView.setImageResource(R.drawable.pill);
+	    	} else if(currentHour>=20) {
+	    		scheduleTextView.setText("02:00");
 	    	}
 	    } else if(schedule.equals(MedicationData.SCHEDULES.H4.toString())) {
 	    	if(currentHour<4) {

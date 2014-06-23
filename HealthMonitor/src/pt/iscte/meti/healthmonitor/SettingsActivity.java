@@ -127,16 +127,10 @@ public class SettingsActivity extends PreferenceActivity {
 		@Override
 		public boolean onPreferenceChange(Preference preference, Object value) {
 			String key = preference.getKey();
-			if(key.equals("username") || key.equals("password") || key.equals("server_address")) {
-				// TODO: Check credentials and reset database
-			}
-			
 			String stringValue = value.toString();
-			
 			// For all other preferences, set the summary to the value's
 			// simple string representation.
 			preference.setSummary(stringValue);
-
 			return true;
 		}
 	};

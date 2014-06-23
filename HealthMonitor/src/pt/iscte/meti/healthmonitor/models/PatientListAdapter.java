@@ -119,9 +119,9 @@ public class PatientListAdapter extends ArrayAdapter<PatientData> {
 		    			pillImageView.setImageResource(R.drawable.pill);
 		    			break;
 		    		}
-		    	} else {
+		    	} else if(currentHour<20) {
 		    		// set icon
-		    		if(currentHour>=15 && currentMinute>=30) {
+		    		if(currentHour>=19 && currentMinute>=30) {
 		    			pillImageView.setImageResource(R.drawable.pill);
 		    			break;
 		    		}
@@ -147,7 +147,7 @@ public class PatientListAdapter extends ArrayAdapter<PatientData> {
 		    		}
 		    	}
 		    } else if(schedule.equals(MedicationData.SCHEDULES.H6.toString())) {
-		    	if(currentHour<2 || currentHour>=20) {
+		    	if(currentHour<2) {
 			    	// set icon
 		    		if(currentHour>=1 && currentMinute>=30) {
 		    			pillImageView.setImageResource(R.drawable.pill);

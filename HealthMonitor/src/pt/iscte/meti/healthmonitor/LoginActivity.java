@@ -40,9 +40,10 @@ public class LoginActivity extends Activity {
 	private UserLoginTask mAuthTask = null;
 
 	// Values for email and password at the time of the login attempt.
-	public static String mUser = null;
-	public static String mPassword = null;
-
+	public String mUser = null;
+	public String mPassword = null;
+	public String serverAddress = null;
+	
 	// UI references.
 	private EditText mUserView;
 	private EditText mPasswordView;
@@ -187,7 +188,9 @@ public class LoginActivity extends Activity {
 		
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			String url = String.format(loginUrl,MainActivity.serverAddress,LoginActivity.mUser,LoginActivity.mPassword);
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+		    serverAddress = settings.getString("server_address", getResources().getString(R.string.pref_default_server));
+			String url = String.format(loginUrl,serverAddress,mUser,mPassword);
 			try {
 				sendGet(url);
 			} catch (ClientProtocolException e) {
@@ -217,8 +220,9 @@ public class LoginActivity extends Activity {
 				// save credentials
 				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
 			    SharedPreferences.Editor editor = settings.edit();
-			    editor.putString("username", LoginActivity.mUser);
-			    editor.putString("password", LoginActivity.mPassword);
+			    editor.putString("username", mUser);
+			    editor.putString("password", mPassword);
+			    editor.putString("server_address", serverAddress);
 			    editor.commit();
 			    // start main activity
 				Intent intent=new Intent(activity,MainActivity.class);

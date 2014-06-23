@@ -45,7 +45,7 @@ import android.widget.ListView;
  * @author João Guiomar
  */
 public class MainActivity extends Activity {
-	public static String serverAddress = null;
+//	public static String serverAddress = null;
 
 	private ListView patientListView;
 	private EditText inputSearch;
@@ -108,7 +108,25 @@ public class MainActivity extends Activity {
 		this.swipeListListener = new SwipeListListener(this);
 		this.patientListView.setOnTouchListener(this.swipeListListener);
 		
-		if((thread==null || !thread.isAlive()) && LoginActivity.mUser!=null && LoginActivity.mPassword!=null) {
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+    	boolean alerts = settings.getBoolean("notification_alerts", true);
+        if(alerts) {
+			// start every 20 seconds
+			Calendar calendar = Calendar.getInstance();
+			Intent intent = new Intent(this, AlertsService.class);
+			PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+			alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 20*1000, pendingIntent); 
+        }
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		String mUser = settings.getString("username", null);
+	    String mPassword = settings.getString("password", null);
+		if((thread==null || !thread.isAlive()) && mUser!=null && mPassword!=null) {
 			// start thread
 			thread = new Thread() {
 				@Override
@@ -119,32 +137,21 @@ public class MainActivity extends Activity {
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									if(LoginActivity.mUser!=null && LoginActivity.mPassword!=null)
-										new GetPatientsTask(MainActivity.this,true).execute(GetPatientsTask.REQUESTS.GET_PATIENT.toString());
+									new GetPatientsTask(MainActivity.this,true).execute(GetPatientsTask.REQUESTS.GET_PATIENT.toString());
 								}
 							});
-							Thread.sleep(1800000);
+							// 20 minutes
+							Thread.sleep(1200000);
 						}
 				    } catch (InterruptedException e) {
-				    	
+				    	e.printStackTrace();
 				    }
 				}
 			};
 			thread.start();
 		}
-		
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-    	boolean alerts = settings.getBoolean("notification_alerts", true);
-        if(alerts) {
-			// start every 30 seconds
-			Calendar calendar = Calendar.getInstance();
-			Intent intent = new Intent(this, AlertsService.class);
-			PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
-			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-			alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30*1000, pendingIntent); 
-        }
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -160,6 +167,15 @@ public class MainActivity extends Activity {
 	    });
 		
 		return true;
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		if(thread!=null && !thread.isInterrupted()) {
+			thread.interrupt();
+			thread = null;
+		}
 	}
 	
 	@Override

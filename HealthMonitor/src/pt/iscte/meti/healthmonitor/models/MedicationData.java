@@ -23,7 +23,7 @@ public class MedicationData implements Parcelable {
 	private int patientDosage;
 	private String schedule;
 	private String route;
-		
+	
 	public MedicationData(
 			int idMedications,
 			String drug,

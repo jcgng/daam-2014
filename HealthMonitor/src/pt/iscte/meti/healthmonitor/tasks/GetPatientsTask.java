@@ -17,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pt.iscte.meti.healthmonitor.LoginActivity;
 import pt.iscte.meti.healthmonitor.MainActivity;
 import pt.iscte.meti.healthmonitor.R;
 import pt.iscte.meti.healthmonitor.db.HealthDS;
@@ -28,9 +27,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class GetPatientsTask extends AsyncTask<String,String,JSONArray> {
@@ -62,7 +63,6 @@ public class GetPatientsTask extends AsyncTask<String,String,JSONArray> {
 	
 	private String sendGet(String url) throws ClientProtocolException, IOException {
 		String responseString = null;
-		
 		HttpClient client = new DefaultHttpClient();
 	    HttpResponse response = client.execute(new HttpGet(url));
     	StatusLine statusLine = response.getStatusLine();
@@ -81,7 +81,9 @@ public class GetPatientsTask extends AsyncTask<String,String,JSONArray> {
 	}
 		
 	private Bitmap downloadPhoto(String photo) throws IOException {
-		String urlStr = String.format(photoUrl,MainActivity.serverAddress,photo);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+	    String serverAddress = settings.getString("server_address", activity.getResources().getString(R.string.pref_default_server));
+		String urlStr = String.format(photoUrl,serverAddress,photo);
 		URL url = new URL(urlStr);
 	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	    conn.setDoInput(true);
@@ -91,11 +93,16 @@ public class GetPatientsTask extends AsyncTask<String,String,JSONArray> {
 	
 	private JSONArray GetPatients() throws ClientProtocolException, IOException, JSONException {
 		JSONArray jsonArray = null;
-		String url = String.format(patientsUrl,MainActivity.serverAddress,LoginActivity.mUser,LoginActivity.mPassword);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+		String mUser = settings.getString("username", null);
+	    String mPassword = settings.getString("password", null);
+	    String serverAddress = settings.getString("server_address", activity.getString(R.string.pref_default_server));
+		String url = String.format(patientsUrl,serverAddress,mUser,mPassword);
 		String patientsInfo = sendGet(url);
-		jsonArray = new JSONArray(patientsInfo);
-		Log.i(GetHealthTask.class.getName(), "Number of entries " + jsonArray.length());
-		
+		if(patientsInfo!=null && !patientsInfo.equals("")) {
+			jsonArray = new JSONArray(patientsInfo);
+			Log.i(GetHealthTask.class.getName(), "Number of entries " + jsonArray.length());
+		}
 		if((activity instanceof MainActivity) && (jsonArray!=null)){
 			MainActivity mainActivity = (MainActivity) activity; 
 			int length = jsonArray.length();

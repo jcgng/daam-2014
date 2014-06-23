@@ -19,10 +19,9 @@ public class SplashscreenActivity extends Activity {
             public void run() {
             	// Restore preferences
             	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(SplashscreenActivity.this);
-            	MainActivity.serverAddress = settings.getString("server_address",getResources().getString(R.string.pref_default_server));
-                LoginActivity.mUser = settings.getString("username", null);
-                LoginActivity.mPassword = settings.getString("password", null);
-            	if(LoginActivity.mUser==null || LoginActivity.mPassword==null) {
+                String mUser = settings.getString("username", null);
+                String mPassword = settings.getString("password", null);
+            	if(mUser==null || mPassword==null) {
         			Intent login=new Intent(SplashscreenActivity.this,LoginActivity.class);
         			startActivity(login);
         			finish();
