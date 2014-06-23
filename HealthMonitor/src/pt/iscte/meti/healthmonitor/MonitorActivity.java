@@ -69,7 +69,7 @@ public class MonitorActivity extends Activity {
 				public void run() {
 					try {
 						while (!isInterrupted()) {
-							Thread.sleep(10000);
+							Thread.sleep(1000);
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
@@ -108,6 +108,7 @@ public class MonitorActivity extends Activity {
 						            }
 								}
 							});
+							Thread.sleep(10000);
 						}
 				    } catch (InterruptedException ie) {
 				    	ie.printStackTrace();
