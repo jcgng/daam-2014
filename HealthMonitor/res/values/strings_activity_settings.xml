@@ -4,13 +4,17 @@
 
     <string name="pref_header_general">General</string>
     <string name="pref_header_data_sync">Data &amp; sync</string>
-     <string name="pref_header_notifications">Notifications</string>
-    
+    <string name="pref_header_notifications">Notifications</string>
+    <!-- General -->
     <string name="pref_general_username">Username</string>
     <string name="pref_general_password">Password</string>
    	<string name="pref_general_password_summary">Set Your Password</string>
-    
-    <string name="pref_notification_alerts">Health Alerts</string>	
+    <!-- Notifications -->
+   	<string name="pref_notification_meds_starthour">Medication Start Hour</string>
+   	<string name="pref_default_meds_starthour">8</string>	
+   	<string name="pref_notification_received">New Health Received</string>	
+    <string name="pref_notification_alerts">Health Alarm</string>
+    <!-- Data & Sync -->
     <string name="pref_data_sync_server">Server Address</string>
     <string name="pref_default_server">http://www.clevermobile.dx.am</string>
     

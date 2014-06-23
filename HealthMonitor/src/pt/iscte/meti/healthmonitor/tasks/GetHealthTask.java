@@ -126,6 +126,7 @@ public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
             // test values and send notification
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(alertsService);
             boolean alerts = settings.getBoolean("notification_alerts", true);
+            boolean received = settings.getBoolean("viber_received", true);
             if(alerts && (res==0) && (healthData.getBpm()<55 || healthData.getBpm()>100 || healthData.getTemp()<35 || healthData.getTemp()>37)) {
 	            Intent intent = new Intent(alertsService, MonitorActivity.class);
 	            intent.putExtra("name",healthData.getName());
@@ -134,7 +135,7 @@ public class GetHealthTask extends AsyncTask<String,String,JSONArray> {
 	            alertsService.sendNotification("Health Monitor","Alert: " + healthData.getName() + " " + healthData.getBpm() + " bpm " + healthData.getTemp() + " ºC",intent);
 	            // Vibrate for 5 seconds
             	vibe.vibrate(5000);
-            } else if(res==0) {
+            } else if(received && res==0) {
             	// Vibrate for 500 milliseconds
             	vibe.vibrate(500);
             }

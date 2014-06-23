@@ -1,5 +1,24 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+	<EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_meds_starthour"
+        android:inputType="number"
+        android:key="meds_start_hour"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_notification_meds_starthour" 
+        android:textColor="@color/blue_text_color"
+        android:textSize="12sp" />
+
+	<CheckBoxPreference
+        android:defaultValue="true"
+        android:key="viber_received"
+        android:title="@string/pref_notification_received" 
+        android:textColor="@color/blue_text_color"
+        android:textSize="12sp" />
+	
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="notification_alerts"

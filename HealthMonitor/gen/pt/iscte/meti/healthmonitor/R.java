@@ -114,15 +114,24 @@ public final class R {
         public static final int error_invalid_email=0x7f08000d;
         public static final int error_invalid_password=0x7f08000e;
         public static final int login_progress_signing_in=0x7f08000c;
-        public static final int pref_data_sync_server=0x7f080019;
-        public static final int pref_default_server=0x7f08001a;
+        /**  Data & Sync 
+         */
+        public static final int pref_data_sync_server=0x7f08001c;
+        public static final int pref_default_meds_starthour=0x7f080019;
+        public static final int pref_default_server=0x7f08001d;
         public static final int pref_general_password=0x7f080016;
         public static final int pref_general_password_summary=0x7f080017;
+        /**  General 
+         */
         public static final int pref_general_username=0x7f080015;
         public static final int pref_header_data_sync=0x7f080013;
         public static final int pref_header_general=0x7f080012;
         public static final int pref_header_notifications=0x7f080014;
-        public static final int pref_notification_alerts=0x7f080018;
+        public static final int pref_notification_alerts=0x7f08001b;
+        /**  Notifications 
+         */
+        public static final int pref_notification_meds_starthour=0x7f080018;
+        public static final int pref_notification_received=0x7f08001a;
         public static final int prompt_email=0x7f080006;
         public static final int prompt_password=0x7f080008;
         public static final int prompt_user=0x7f080007;

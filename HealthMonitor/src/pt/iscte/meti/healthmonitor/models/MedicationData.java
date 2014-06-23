@@ -23,7 +23,7 @@ public class MedicationData implements Parcelable {
 	private int patientDosage;
 	private String schedule;
 	private String route;
-	
+
 	public MedicationData(
 			int idMedications,
 			String drug,
@@ -79,6 +79,25 @@ public class MedicationData implements Parcelable {
 		return route; 
 	}
 
+	public int nextHour(int startHour, int currentHour, int increment) {
+		int tti = 24/increment;
+		int res = startHour;
+		int nextHour = res;
+		int d = 24;
+		for(int i = 0; i < tti; i++) {
+			res = (res+increment)%24;
+			if(res==0) res = 24;
+			if(res>currentHour) {
+				int dTemp = res - currentHour;
+				if(dTemp<d) {
+					d = dTemp;
+					nextHour=res;
+				}
+			}
+		}
+		return nextHour;
+	}
+	
 	public static final Creator<MedicationData> CREATOR = new Creator<MedicationData>() {
          public MedicationData createFromParcel(Parcel in) {
              return new MedicationData(in);

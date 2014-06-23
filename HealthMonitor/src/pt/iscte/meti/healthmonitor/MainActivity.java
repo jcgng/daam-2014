@@ -169,14 +169,14 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	@Override
-	public void onStop() {
-		super.onStop();
-		if(thread!=null && !thread.isInterrupted()) {
-			thread.interrupt();
-			thread = null;
-		}
-	}
+//	@Override
+//	public void onStop() {
+//		super.onStop();
+//		if(thread!=null && !thread.isInterrupted()) {
+//			thread.interrupt();
+//			thread = null;
+//		}
+//	}
 	
 	@Override
 	public void onDestroy() {

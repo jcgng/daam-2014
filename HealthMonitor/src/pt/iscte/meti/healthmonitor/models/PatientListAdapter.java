@@ -7,6 +7,8 @@ import pt.iscte.meti.healthmonitor.R;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,113 +106,27 @@ public class PatientListAdapter extends ArrayAdapter<PatientData> {
 	    Calendar calendar = Calendar.getInstance();
 	    int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 	    int currentMinute = calendar.get(Calendar.MINUTE);
+	    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+	    Integer startHour = Integer.parseInt(settings.getString("meds_start_hour",context.getResources().getString(R.string.pref_default_meds_starthour)));
 	    for(MedicationData medication : medications) { 
 	    	String schedule = medication.getSchedule(); 
+	    	int nextHour = currentHour;
 	    	if(schedule.equals(MedicationData.SCHEDULES.H24.toString())) {
-		    	// set icon
-	    		if(currentHour<8 && currentHour>=7 && currentMinute>=30) {
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    			break;
-	    		}
+	    		nextHour = medication.nextHour(startHour.intValue(),currentHour,24);
 		    } else if(schedule.equals(MedicationData.SCHEDULES.H12.toString())) {
-		    	if(currentHour<8) {
-		    		// set icon
-		    		if(currentHour>=7 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<20) {
-		    		// set icon
-		    		if(currentHour>=19 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	}
+		    	nextHour = medication.nextHour(startHour.intValue(),currentHour,12);
 		    } else if(schedule.equals(MedicationData.SCHEDULES.H8.toString())) {
-		    	if(currentHour<8) {
-			    	// set icon
-		    		if(currentHour>=7 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<16) {
-		    		// set icon
-		    		if(currentHour>=15 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<=23) {
-		    		// set icon
-		    		if(currentHour>=23 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	}
+		    	nextHour = medication.nextHour(startHour.intValue(),currentHour,8);
 		    } else if(schedule.equals(MedicationData.SCHEDULES.H6.toString())) {
-		    	if(currentHour<2) {
-			    	// set icon
-		    		if(currentHour>=1 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<8) {
-		    		// set icon
-		    		if(currentHour>=7 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<14) {
-		    		// set icon
-		    		if(currentHour>=13 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<20) {
-		    		// set icon
-		    		if(currentHour>=19 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	}
+		    	nextHour = medication.nextHour(startHour.intValue(),currentHour,6);
 		    } else if(schedule.equals(MedicationData.SCHEDULES.H4.toString())) {
-		    	if(currentHour<4) {
-			    	// set icon
-		    		if(currentHour>=3 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<8) {
-			    	// set icon
-					if(currentHour>=7 && currentMinute>=30) {
-						pillImageView.setImageResource(R.drawable.pill);
-						break;
-					}
-		    	} else if(currentHour<12) {
-			    	// set icon
-		    		if(currentHour>=11 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<16) { 
-			    	// set icon
-		    		if(currentHour>=15 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<20) { 
-			    	// set icon
-		    		if(currentHour>=19 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	} else if(currentHour<=23) { 
-			    	// set icon
-		    		if(currentHour>=23 && currentMinute>=30) {
-		    			pillImageView.setImageResource(R.drawable.pill);
-		    			break;
-		    		}
-		    	}
+		    	nextHour = medication.nextHour(startHour.intValue(),currentHour,4);
 		    }
+	    	// set icon
+    		if((nextHour-currentHour)==1 && currentMinute>=30) {
+    			pillImageView.setImageResource(R.drawable.pill);
+    			break;
+    		}
 	    }	    
 		return view;
     }

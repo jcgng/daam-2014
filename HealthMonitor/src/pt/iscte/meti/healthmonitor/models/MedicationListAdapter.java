@@ -6,6 +6,8 @@ import java.util.Calendar;
 import pt.iscte.meti.healthmonitor.R;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,98 +48,28 @@ public class MedicationListAdapter extends ArrayAdapter<MedicationData> {
 	    Calendar calendar = Calendar.getInstance();
 	    int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 	    int currentMinute = calendar.get(Calendar.MINUTE);
+	    int nextHour = currentHour;
+	    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+	    Integer startHour = Integer.parseInt(settings.getString("meds_start_hour",context.getResources().getString(R.string.pref_default_meds_starthour)));
 	    if(schedule.equals(MedicationData.SCHEDULES.H24.toString())) {
-	    	scheduleTextView.setText("08:00");
-	    	// set icon
-    		if(currentHour<8 && currentHour>=7 && currentMinute>=30)
-    			pillImageView.setImageResource(R.drawable.pill);
+	    	nextHour = medicationList.get(position).nextHour(startHour.intValue(),currentHour,24);
 	    } else if(schedule.equals(MedicationData.SCHEDULES.H12.toString())) {
-	    	if(currentHour<8) {
-	    		scheduleTextView.setText("08:00");
-	    		// set icon
-	    		if(currentHour>=7 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<20) {
-	    		scheduleTextView.setText("20:00");
-	    		// set icon
-	    		if(currentHour>=19 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	}
+	    	nextHour = medicationList.get(position).nextHour(startHour.intValue(),currentHour,12);
 	    } else if(schedule.equals(MedicationData.SCHEDULES.H8.toString())) {
-	    	if(currentHour<8) {
-	    		scheduleTextView.setText("08:00");
-		    	// set icon
-	    		if(currentHour>=7 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<16) {
-	    		scheduleTextView.setText("16:00");
-	    		// set icon
-	    		if(currentHour>=15 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<=23) {
-	    		scheduleTextView.setText("00:00");
-	    		// set icon
-	    		if(currentHour>=23 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	}
+	    	nextHour = medicationList.get(position).nextHour(startHour.intValue(),currentHour,8);
 	    } else if(schedule.equals(MedicationData.SCHEDULES.H6.toString())) {
-	    	if(currentHour<2) {
-	    		scheduleTextView.setText("02:00");
-		    	// set icon
-	    		if(currentHour>=1 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<8) {
-	    		scheduleTextView.setText("08:00");
-	    		// set icon
-	    		if(currentHour>=7 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<14) {
-	    		scheduleTextView.setText("14:00");
-	    		// set icon
-	    		if(currentHour>=13 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<20) {
-	    		scheduleTextView.setText("20:00");
-	    		// set icon
-	    		if(currentHour>=19 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour>=20) {
-	    		scheduleTextView.setText("02:00");
-	    	}
+	    	nextHour = medicationList.get(position).nextHour(startHour.intValue(),currentHour,6);
 	    } else if(schedule.equals(MedicationData.SCHEDULES.H4.toString())) {
-	    	if(currentHour<4) {
-	    		scheduleTextView.setText("04:00");
-		    	// set icon
-	    		if(currentHour>=3 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<8) {
-	    		scheduleTextView.setText("08:00");
-		    	// set icon
-				if(currentHour>=7 && currentMinute>=30)
-					pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<12) {
-	    		scheduleTextView.setText("12:00");
-		    	// set icon
-	    		if(currentHour>=11 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<16) { 
-	    		scheduleTextView.setText("16:00");
-		    	// set icon
-	    		if(currentHour>=15 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<20) { 
-	    		scheduleTextView.setText("20:00");
-		    	// set icon
-	    		if(currentHour>=19 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	} else if(currentHour<=23) { 
-	    		scheduleTextView.setText("00:00");
-		    	// set icon
-	    		if(currentHour>=23 && currentMinute>=30)
-	    			pillImageView.setImageResource(R.drawable.pill);
-	    	}
+	    	nextHour = medicationList.get(position).nextHour(startHour.intValue(),currentHour,4);
 	    }
-	    
+	    // set icon
+		if((nextHour-currentHour)==1 && currentMinute>=30) {
+			pillImageView.setImageResource(R.drawable.pill);
+		}
+		if(nextHour==24) nextHour = 0;
+		String hourStr = (nextHour>10?nextHour+":00":"0"+nextHour+":00");
+		scheduleTextView.setText(hourStr);
+		
 	    TextView routeTextView = (TextView) view.findViewById(R.id.route);
 	    routeTextView.setText(medicationList.get(position).getRoute());
 	    		

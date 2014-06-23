@@ -3,7 +3,7 @@
     <EditTextPreference
         android:capitalize="words"
         android:defaultValue="@string/pref_default_server"
-        android:inputType="textCapWords"
+        android:inputType="textUri"
         android:key="server_address"
         android:maxLines="1"
         android:selectAllOnFocus="true"

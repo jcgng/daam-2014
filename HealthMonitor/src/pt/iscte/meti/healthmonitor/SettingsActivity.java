@@ -81,6 +81,7 @@ public class SettingsActivity extends PreferenceActivity {
 		bindPreferenceSummaryToValue(findPreference("username"));
 //		bindPreferenceSummaryToValue(findPreference("password"));
 //		bindPreferenceSummaryToValue(findPreference("notification_alerts"));
+		bindPreferenceSummaryToValue(findPreference("meds_start_hour"));
 		bindPreferenceSummaryToValue(findPreference("server_address"));
 	}
 
